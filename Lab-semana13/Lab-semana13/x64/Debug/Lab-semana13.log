@@ -1,0 +1,34 @@
+﻿  Lab-semana13.cpp
+C:\Users\Yo\Documents\GitHub\College-Projects\Algorithms-and-Data-Structures\Smart-Fitnt\Lab-semana13\Lab-semana13.cpp(82,27): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+      C:\Users\Yo\Documents\GitHub\College-Projects\Algorithms-and-Data-Structures\Smart-Fitnt\Lab-semana13\Lab-semana13.cpp(82,27):
+      the template instantiation context (the oldest one first) is
+          C:\Users\Yo\Documents\GitHub\College-Projects\Algorithms-and-Data-Structures\Smart-Fitnt\Lab-semana13\Lab-semana13.cpp(123,23):
+          see reference to class template instantiation 'CGrafo<int,-1>' being compiled
+          C:\Users\Yo\Documents\GitHub\College-Projects\Algorithms-and-Data-Structures\Smart-Fitnt\Lab-semana13\Lab-semana13.cpp(77,6):
+          while compiling class template member function 'int CGrafo<int,-1>::adicionarArco(int,int)'
+              C:\Users\Yo\Documents\GitHub\College-Projects\Algorithms-and-Data-Structures\Smart-Fitnt\Lab-semana13\Lab-semana13.cpp(131,18):
+              see the first reference to 'CGrafo<int,-1>::adicionarArco' in 'main'
+  
+C:\Users\Yo\Documents\GitHub\College-Projects\Algorithms-and-Data-Structures\Smart-Fitnt\Lab-semana13\Lab-semana13.cpp(63,27): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+      C:\Users\Yo\Documents\GitHub\College-Projects\Algorithms-and-Data-Structures\Smart-Fitnt\Lab-semana13\Lab-semana13.cpp(63,27):
+      the template instantiation context (the oldest one first) is
+          C:\Users\Yo\Documents\GitHub\College-Projects\Algorithms-and-Data-Structures\Smart-Fitnt\Lab-semana13\Lab-semana13.cpp(59,6):
+          while compiling class template member function 'int CGrafo<int,-1>::adicionarVertice(T)'
+          with
+          [
+              T=int
+          ]
+              C:\Users\Yo\Documents\GitHub\College-Projects\Algorithms-and-Data-Structures\Smart-Fitnt\Lab-semana13\Lab-semana13.cpp(126,21):
+              see the first reference to 'CGrafo<int,-1>::adicionarVertice' in 'main'
+  
+C:\Users\Yo\Documents\GitHub\College-Projects\Algorithms-and-Data-Structures\Smart-Fitnt\Lab-semana13\Lab-semana13.cpp(67,24): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+      C:\Users\Yo\Documents\GitHub\College-Projects\Algorithms-and-Data-Structures\Smart-Fitnt\Lab-semana13\Lab-semana13.cpp(67,24):
+      the template instantiation context (the oldest one first) is
+          C:\Users\Yo\Documents\GitHub\College-Projects\Algorithms-and-Data-Structures\Smart-Fitnt\Lab-semana13\Lab-semana13.cpp(66,6):
+          while compiling class template member function 'int CGrafo<int,-1>::cantidadVertices(void)'
+              C:\Users\Yo\Documents\GitHub\College-Projects\Algorithms-and-Data-Structures\Smart-Fitnt\Lab-semana13\Lab-semana13.cpp(105,9):
+              see the first reference to 'CGrafo<int,-1>::cantidadVertices' in 'CGrafo<int,-1>::ordenTopologico'
+              C:\Users\Yo\Documents\GitHub\College-Projects\Algorithms-and-Data-Structures\Smart-Fitnt\Lab-semana13\Lab-semana13.cpp(137,21):
+              see the first reference to 'CGrafo<int,-1>::ordenTopologico' in 'main'
+  
+  Lab-semana13.vcxproj -> C:\Users\Yo\Documents\GitHub\College-Projects\Algorithms-and-Data-Structures\Smart-Fitnt\Lab-semana13\x64\Debug\Lab-semana13.exe

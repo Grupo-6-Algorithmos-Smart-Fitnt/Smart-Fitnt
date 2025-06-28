@@ -1,0 +1,81 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Yo\\Documents\\GitHub\\College-Projects\\Algorithms-and-Data-Structures\\Smart-Fitnt\\Lab-semana13\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{AEC36176-9FC6-4FFA-A0D5-EE310646DAC4}|Lab-semana13.vcxproj|C:\\Users\\Yo\\Documents\\GitHub\\College-Projects\\Algorithms-and-Data-Structures\\Smart-Fitnt\\Lab-semana13\\Lab-semana13.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{AEC36176-9FC6-4FFA-A0D5-EE310646DAC4}|Lab-semana13.vcxproj|solutionrelative:Lab-semana13.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Yo\\Downloads\\Grafos\\TestGrafo.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Yo\\Downloads\\Grafos\\Grafo.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TestGrafo.cpp",
+              "DocumentMoniker": "C:\\Users\\Yo\\Downloads\\Grafos\\TestGrafo.cpp",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Downloads\\Grafos\\TestGrafo.cpp",
+              "ToolTip": "C:\\Users\\Yo\\Downloads\\Grafos\\TestGrafo.cpp",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Downloads\\Grafos\\TestGrafo.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-23T23:06:40.361Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Grafo.hpp",
+              "DocumentMoniker": "C:\\Users\\Yo\\Downloads\\Grafos\\Grafo.hpp",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Downloads\\Grafos\\Grafo.hpp",
+              "ToolTip": "C:\\Users\\Yo\\Downloads\\Grafos\\Grafo.hpp",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Downloads\\Grafos\\Grafo.hpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-23T23:06:34.758Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Lab-semana13.cpp",
+              "DocumentMoniker": "C:\\Users\\Yo\\Documents\\GitHub\\College-Projects\\Algorithms-and-Data-Structures\\Smart-Fitnt\\Lab-semana13\\Lab-semana13.cpp",
+              "RelativeDocumentMoniker": "Lab-semana13.cpp",
+              "ToolTip": "C:\\Users\\Yo\\Documents\\GitHub\\College-Projects\\Algorithms-and-Data-Structures\\Smart-Fitnt\\Lab-semana13\\Lab-semana13.cpp",
+              "RelativeToolTip": "Lab-semana13.cpp",
+              "ViewState": "AgIAAHwAAAAAAAAAAAAqwJoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-23T22:36:07.239Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
