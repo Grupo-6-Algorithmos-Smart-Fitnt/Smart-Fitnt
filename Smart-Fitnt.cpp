@@ -11,9 +11,11 @@
 #include <optional>
 #include <iomanip>
 #include <sstream>
-#include <chrono>
 #include <ctime>
 #include <stdexcept>
+#include <list> 
+#include <map>   
+
 using namespace std;
 
 template <typename T>
@@ -23,7 +25,6 @@ public:
     N<T>* siguiente;
     N(T valor) : dato(valor), siguiente(nullptr) {}
 };
-
 
 template <typename T>
 class ListaE {
@@ -43,14 +44,13 @@ public:
         cabeza = nullptr;
     }
 
-
     void insertar(T valor) {
         N<T>* nuevo = new N<T>(valor);
         nuevo->siguiente = cabeza;
         cabeza = nuevo;
     }
 
-    // MÈtodo mostrar modificado para ser constante
+    // M√©todo mostrar modificado para ser constante
     void mostrar(function<void(T)> mostrarElemento) const {
         N<T>* actual = cabeza;
         while (actual != nullptr) {
@@ -70,7 +70,6 @@ public:
 
     bool eliminar(std::function<bool(T)> criterio) {
         if (!cabeza) return false;
-
         N<T>* actual = cabeza;
         N<T>* previo = nullptr;
 
@@ -82,7 +81,6 @@ public:
 
         previo = actual;
         actual = actual->siguiente;
-
         while (actual) {
             if (criterio(actual->dato)) {
                 previo->siguiente = actual->siguiente;
@@ -97,7 +95,6 @@ public:
     }
 };
 
-
 template <typename T>
 struct NodoCircular {
     T dato;
@@ -111,14 +108,12 @@ class ListaCircular {
 private:
     shared_ptr<NodoCircular<T>> cabeza;
     shared_ptr<NodoCircular<T>> actual;
-    size_t tamaÒo;
-
+    size_t tama√±o;
 public:
-    ListaCircular() : cabeza(nullptr), actual(nullptr), tamaÒo(0) {}
+    ListaCircular() : cabeza(nullptr), actual(nullptr), tama√±o(0) {}
 
     void insertar(const T& valor) {
         auto nuevo = make_shared<NodoCircular<T>>(valor);
-
         if (!cabeza) {
             cabeza = nuevo;
             cabeza->siguiente = cabeza;
@@ -128,7 +123,7 @@ public:
             cabeza->siguiente = nuevo;
             cabeza = nuevo;
         }
-        tamaÒo++;
+        tama√±o++;
     }
 
     void rotar() {
@@ -142,7 +137,6 @@ public:
 
     shared_ptr<NodoCircular<T>> buscar(std::function<bool(const T&)> criterio) {
         if (!cabeza) return nullptr;
-
         auto temp = cabeza;
         do {
             if (criterio(temp->dato)) return temp;
@@ -154,7 +148,6 @@ public:
 
     bool eliminar(function<bool(const T&)> criterio) {
         if (!cabeza) return false;
-
         auto prev = cabeza;
         auto curr = cabeza->siguiente;
 
@@ -162,7 +155,7 @@ public:
             if (criterio(curr->dato)) {
                 prev->siguiente = curr->siguiente;
                 if (curr == cabeza) cabeza = prev;
-                tamaÒo--;
+                tama√±o--;
                 return true;
             }
             prev = curr;
@@ -174,7 +167,6 @@ public:
 
     void mostrar(function<void(const T&)> mostrarElemento) {
         if (!cabeza) return;
-
         auto temp = cabeza;
         do {
             mostrarElemento(temp->dato);
@@ -182,7 +174,7 @@ public:
         } while (temp != cabeza);
     }
 
-    size_t obtenerTamaÒo() const { return tamaÒo; }
+    size_t obtenerTama√±o() const { return tama√±o; }
 };
 
 class cliente {
@@ -190,6 +182,15 @@ public:
     string id, name, correo;
     cliente() {}
     cliente(string i, string n, string c) : id(i), name(n), correo(c) {}
+    bool operator<(const cliente& other) const {
+        return id < other.id;
+    }
+    bool operator>(const cliente& other) const {
+        return id > other.id;
+    }
+    bool operator==(const cliente& other) const {
+        return id == other.id;
+    }
 };
 
 class membresia {
@@ -199,12 +200,12 @@ public:
     membresia() {}
     membresia(string i, string t, double p) : id(i), tipo(t), precio(p) {}
 
-    // Nuevo: MÈtodo para serializar (convertir a string) la membresia
+    // Nuevo: M√©todo para serializar (convertir a string) la membresia
     string toString() const {
         return id + "," + tipo + "," + to_string(precio);
     }
 
-    // Nuevo: MÈtodo est·tico para deserializar (crear desde string) la membresia
+    // Nuevo: M√©todo est√°tico para deserializar (crear desde string) la membresia
     static membresia fromString(const string& data) {
         stringstream ss(data);
         string id, tipo, precioStr;
@@ -220,6 +221,15 @@ public:
     string id, nombre, horario;
     clase() {}
     clase(string i, string n, string h) : id(i), nombre(n), horario(h) {}
+    bool operator<(const clase& other) const {
+        return id < other.id;
+    }
+    bool operator>(const clase& other) const {
+        return id > other.id;
+    }
+    bool operator==(const clase& other) const {
+        return id == other.id;
+    }
 };
 
 class trainer {
@@ -227,6 +237,15 @@ public:
     string id, nme, especialidad;
     trainer() {}
     trainer(string i, string n, string e) : id(i), nme(n), especialidad(e) {}
+    bool operator<(const trainer& other) const {
+        return id < other.id;
+    }
+    bool operator>(const trainer& other) const {
+        return id > other.id;
+    }
+    bool operator==(const trainer& other) const {
+        return id == other.id;
+    }
 };
 
 class Asistencia {
@@ -237,7 +256,6 @@ public:
     Asistencia(string c, string cl, string f) : clienteId(c), claseId(cl), fecha(f) {}
 };
 
-
 class Pago {
 public:
     string clienteId;
@@ -245,16 +263,16 @@ public:
     Pago() {} // Constructor predeterminado
     Pago(string id, membresia mem) : clienteId(id), m(mem) {}
 
-    // Nuevo: MÈtodo para serializar (convertir a string) el pago
+    // Nuevo: M√©todo para serializar (convertir a string) el pago
     string toString() const {
         return clienteId + "|" + m.toString(); // Usamos '|' como separador para diferenciar de las comas internas de membresia
     }
 
-    // Nuevo: MÈtodo est·tico para deserializar (crear desde string) el pago
+    // Nuevo: M√©todo est√°tico para deserializar (crear desde string) el pago
     static Pago fromString(const string& data) {
         size_t pos = data.find('|');
         if (pos == string::npos) {
-            throw invalid_argument("Formato de pago inv·lido: no se encontrÛ el separador '|'");
+            throw invalid_argument("Formato de pago inv√°lido: no se encontr√≥ el separador '|'");
         }
         string clienteId = data.substr(0, pos);
         string membresiaData = data.substr(pos + 1);
@@ -267,8 +285,10 @@ public:
 
 class HorariosEspecificos {
 public:
-    string id; // Ej: "M" para MaÒana, "T" para Tarde
-    string descripcion; // Ej: "06:00 - 12:00", "MaÒana"
+    string id;
+    // Ej: "M" para Ma√±ana, "T" para Tarde
+    string descripcion;
+    // Ej: "06:00 - 12:00", "Ma√±ana"
     HorariosEspecificos() {}
     HorariosEspecificos(string i, string d) : id(i), descripcion(d) {}
 };
@@ -277,7 +297,8 @@ class RutinaEjercicio {
 public:
     string rutinaId;
     string nombre;
-    string descripcion; // Breve descripciÛn de la rutina
+    string descripcion;
+    // Breve descripci√≥n de la rutina
     RutinaEjercicio() {}
     RutinaEjercicio(string i, string n, string d) : rutinaId(i), nombre(n), descripcion(d) {}
 };
@@ -285,18 +306,16 @@ public:
 class ClienteTieneTrainer {
 public:
     string clienteId;
-    bool tieneTrainer; // true si tiene entrenador asignado, false si no
+    bool tieneTrainer;
+    // true si tiene entrenador asignado, false si no
     ClienteTieneTrainer() {}
     ClienteTieneTrainer(string id, bool estado) : clienteId(id), tieneTrainer(estado) {}
 };
-
 
 class Equipo {
 public:
     string equipoId;
     string nombre;
-
-
     enum class TipoEquipo {
         CARDIO,
         FUERZA,
@@ -304,13 +323,11 @@ public:
         MAQUINARIA,
         OTROS
     } tipo;
-
     enum class EstadoMantenimiento {
         OPERATIVO,
         EN_MANTENIMIENTO,
         DESHABILITADO
     } estado;
-
     string claseId;
     string zonaGimnasio;
 
@@ -355,14 +372,13 @@ public:
     }
 };
 
-class ReseÒaDeEntrenador {
+class Rese√±aDeEntrenador {
 public:
-    string reseÒaId;
+    string rese√±aId;
     string trainerId;
     string clienteId;
     string comentario;
-
-    // Rating enumeration
+    //  enumeracion
     enum class Calificacion {
         UNA = 1,
         DOS = 2,
@@ -370,29 +386,27 @@ public:
         CUATRO = 4,
         CINCO = 5
     } calificacion;
-
     // status
-    enum class EstadoReseÒa {
+    enum class EstadoRese√±a {
         ACTIVA,
         REPORTADA,
         ELIMINADA
     } estado;
-
-    chrono::system_clock::time_point fechaReseÒa;
+    chrono::system_clock::time_point fechaRese√±a;
 
     // Constructor
-    ReseÒaDeEntrenador(const string& id,
+    Rese√±aDeEntrenador(const string& id,
         const string& clienteId,
         const string& trainerId,
         Calificacion calif,
         const string& comentario)
-        : reseÒaId(id),
+        : rese√±aId(id),
         clienteId(clienteId),
         trainerId(trainerId),
         comentario(comentario),
         calificacion(calif),
-        estado(EstadoReseÒa::ACTIVA),
-        fechaReseÒa(chrono::system_clock::now()) {
+        estado(EstadoRese√±a::ACTIVA),
+        fechaRese√±a(chrono::system_clock::now()) {
 
         // validacion
         if (calif < Calificacion::UNA || calif > Calificacion::CINCO) {
@@ -400,18 +414,18 @@ public:
         }
     }
 
-    void reportarReseÒa() {
-        estado = EstadoReseÒa::REPORTADA;
+    void reportarRese√±a() {
+        estado = EstadoRese√±a::REPORTADA;
     }
 
     void limpiarReporte() {
-        if (estado == EstadoReseÒa::REPORTADA) {
-            estado = EstadoReseÒa::ACTIVA;
+        if (estado == EstadoRese√±a::REPORTADA) {
+            estado = EstadoRese√±a::ACTIVA;
         }
     }
 
     string obtenerFechaFormateada() const {
-        time_t time = chrono::system_clock::to_time_t(fechaReseÒa);
+        time_t time = chrono::system_clock::to_time_t(fechaRese√±a);
         struct tm tm_buffer;
 
         // Usar localtime_s en Windows, localtime en otros OS
@@ -420,7 +434,7 @@ public:
 #else
         if (localtime(&time) == nullptr) {
 #endif
-            return "Fecha inv·lida";
+            return "Fecha inv√°lida";
         }
 
         stringstream ss;
@@ -430,26 +444,23 @@ public:
         ss << put_time(localtime(&time), "%a %b %d %H:%M:%S %Y");
 #endif
         return ss.str();
-        }
-    };
+    }
+};
 
 class Objetivo {
 public:
     string objetivoId;
     string clienteId;
-
     enum class Estado {
         InProgress,
         Achieved,
         Expired
     } estado;
-
     int targetDays;
     int currentDays;
     chrono::system_clock::time_point startDate;
     chrono::system_clock::time_point endDate;
     chrono::system_clock::time_point lastUpdated;
-
     Objetivo(const string& id,
         const string& clientId,
         int targetDays,
@@ -510,10 +521,8 @@ private:
         return chrono::system_clock::from_time_t(std::mktime(&tm));
     }
 
-    // status updater
     void updateStatus() {
         auto now = chrono::system_clock::now();
-
         if (now > endDate) {
             estado = Estado::Expired;
         }
@@ -526,6 +535,192 @@ private:
     }
 };
 
+// Clase para Tabla Hash de Clientes
+class TablaHashClientes {
+private:
+    std::vector<std::list<cliente>> tabla;
+    int capacidad;
+
+    // Funci√≥n hash simple
+    int funcionHash(const std::string& key) {
+        int hash = 0;
+        for (char c : key) {
+            hash += c;
+        }
+        return hash % capacidad;
+    }
+
+public:
+    TablaHashClientes(int cap) : capacidad(cap) {
+        tabla.resize(capacidad);
+    }
+
+    void insertar(const cliente& cli) {
+        int indice = funcionHash(cli.id);
+        for (const auto& c : tabla[indice]) {
+            if (c.id == cli.id) {
+                throw std::runtime_error("Cliente con ID " + cli.id + " ya existe.");
+            }
+        }
+        tabla[indice].push_back(cli);
+    }
+
+    cliente* buscar(const std::string& id) {
+        int indice = funcionHash(id);
+        for (auto& c : tabla[indice]) {
+            if (c.id == id) {
+                return &c;
+            }
+        }
+        return nullptr;
+    }
+
+    void eliminar(const std::string& id) {
+        int indice = funcionHash(id);
+        auto& lista = tabla[indice];
+        for (auto it = lista.begin(); it != lista.end(); ++it) {
+            if (it->id == id) {
+                lista.erase(it);
+                return;
+            }
+        }
+        throw std::runtime_error("Cliente con ID " + id + " no encontrado para eliminar.");
+    }
+
+    void mostrarTodos() {
+        for (int i = 0; i < capacidad; ++i) {
+            std::cout << "Bucket " << i << ":\n";
+            if (tabla[i].empty()) {
+                std::cout << "    Vacio\n";
+            } else {
+                for (const auto& cli : tabla[i]) {
+                    std::cout << "    ID: " << cli.id << ", Nombre: " << cli.name << ", Correo: " << cli.correo << "\n";
+                }
+            }
+        }
+    }
+};
+
+// Clase para Nodo de √Årbol Binario de B√∫squeda
+template <typename T>
+class NodoArbol {
+public:
+    T dato;
+    NodoArbol<T>* izquierda;
+    NodoArbol<T>* derecha;
+
+    NodoArbol(T val) : dato(val), izquierda(nullptr), derecha(nullptr) {}
+};
+
+// Clase para √Årbol Binario de B√∫squeda
+template <typename T>
+class ArbolBinarioBusqueda {
+private:
+    NodoArbol<T>* raiz;
+
+    // Funci√≥n auxiliar para insertar
+    NodoArbol<T>* _insertar(NodoArbol<T>* nodo, T valor) {
+        if (nodo == nullptr) {
+            return new NodoArbol<T>(valor);
+        }
+        if (valor < nodo->dato) {
+            nodo->izquierda = _insertar(nodo->izquierda, valor);
+        } else if (valor > nodo->dato) {
+            nodo->derecha = _insertar(nodo->derecha, valor);
+        }
+        return nodo;
+    }
+
+    // Funci√≥n auxiliar para buscar
+    NodoArbol<T>* _buscar(NodoArbol<T>* nodo, T valor) {
+        if (nodo == nullptr || nodo->dato == valor) {
+            return nodo;
+        }
+        if (valor < nodo->dato) {
+            return _buscar(nodo->izquierda, valor);
+        } else {
+            return _buscar(nodo->derecha, valor);
+        }
+    }
+
+    // Funci√≥n auxiliar para encontrar el m√≠nimo
+    NodoArbol<T>* _encontrarMin(NodoArbol<T>* nodo) {
+        while (nodo->izquierda != nullptr) {
+            nodo = nodo->izquierda;
+        }
+        return nodo;
+    }
+
+    // Funci√≥n auxiliar para eliminar
+    NodoArbol<T>* _eliminar(NodoArbol<T>* nodo, T valor) {
+        if (nodo == nullptr) {
+            return nodo;
+        }
+        if (valor < nodo->dato) {
+            nodo->izquierda = _eliminar(nodo->izquierda, valor);
+        } else if (valor > nodo->dato) {
+            nodo->derecha = _eliminar(nodo->derecha, valor);
+        } else {
+            // Caso 1: No tiene hijos o solo un hijo
+            if (nodo->izquierda == nullptr) {
+                NodoArbol<T>* temp = nodo->derecha;
+                delete nodo;
+                return temp;
+            } else if (nodo->derecha == nullptr) {
+                NodoArbol<T>* temp = nodo->izquierda;
+                delete nodo;
+                return temp;
+            }
+
+            // Caso 2: Tiene dos hijos
+            NodoArbol<T>* temp = _encontrarMin(nodo->derecha);
+            nodo->dato = temp->dato;
+            nodo->derecha = _eliminar(nodo->derecha, temp->dato);
+        }
+        return nodo;
+    }
+
+    // Funci√≥n auxiliar para recorrido en orden
+    void _inorden(NodoArbol<T>* nodo, std::function<void(T)> imprimir) {
+        if (nodo != nullptr) {
+            _inorden(nodo->izquierda, imprimir);
+            imprimir(nodo->dato);
+            _inorden(nodo->derecha, imprimir);
+        }
+    }
+
+    // Funci√≥n auxiliar para liberar memoria
+    void _eliminarArbol(NodoArbol<T>* nodo) {
+        if (nodo != nullptr) {
+            _eliminarArbol(nodo->izquierda);
+            _eliminarArbol(nodo->derecha);
+            delete nodo;
+        }
+    }
+
+public:
+    ArbolBinarioBusqueda() : raiz(nullptr) {}
+
+    ~ArbolBinarioBusqueda() {
+        _eliminarArbol(raiz);
+    }
+
+    void insertar(T valor) {
+        raiz = _insertar(raiz, valor);
+    }
+
+    bool buscar(T valor) {
+        return _buscar(raiz, valor) != nullptr;
+    }
+
+    void eliminar(T valor) {
+        raiz = _eliminar(raiz, valor);
+    }
+
+    void inorden(std::function<void(T)> imprimir) {
+        _inorden(raiz, imprimir);
+    }
+};
 
 stack<membresia> historialMembresias;
 queue<cliente> colaEspera;
@@ -538,24 +733,25 @@ ListaE<ClienteTieneTrainer> estadoTrainersCliente;
 ListaE<Equipo> equiposTotales;
 ListaCircular<Equipo> equiposEnMantenimiento;
 
-ListaE<ReseÒaDeEntrenador> reseÒasTotales;
-queue<ReseÒaDeEntrenador*> reseÒasReportadas;
+ListaE<Rese√±aDeEntrenador> rese√±asTotales;
+queue<Rese√±aDeEntrenador*> rese√±asReportadas;
 
 ListaE<Objetivo> objetivosHistoricos;
 stack<Objetivo> objetivosActivos;
 
+TablaHashClientes tablaClientes(100); 
+ArbolBinarioBusqueda<trainer> arbolTrainers; 
+ArbolBinarioBusqueda<clase> arbolClases;     
 
 const string NOMBRE_ARCHIVO_PAGOS = "Pagos.txt";
-
-// FunciÛn para guardar los pagos en el archivo
+// Funci√≥n para guardar los pagos en el archivo
 void guardarPagos(const ListaE<Pago>& listaPagos, const string& nombreArchivo) {
     ofstream archivo(nombreArchivo); // Abre el archivo en modo escritura
     if (archivo.is_open()) {
         listaPagos.mostrar([&](Pago p) {
-            archivo << p.toString() << endl; // Escribe cada pago en una lÌnea
+            archivo << p.toString() << endl; // Escribe cada pago en una l√≠nea
             });
-
-        // °AÒadido para forzar la escritura al disco!
+        // ¬°A√±adido para forzar la escritura al disco!
         archivo.flush();
 
         archivo.close();
@@ -566,25 +762,25 @@ void guardarPagos(const ListaE<Pago>& listaPagos, const string& nombreArchivo) {
     }
 }
 
-// FunciÛn para cargar los pagos desde el archivo
+// Funci√≥n para cargar los pagos desde el archivo
 ListaE<Pago> cargarPagos(const string& nombreArchivo) {
     ListaE<Pago> pagosCargados;
     ifstream archivo(nombreArchivo); // Abre el archivo en modo lectura
     if (archivo.is_open()) {
         string linea;
-        while (getline(archivo, linea)) { // Lee el archivo lÌnea por lÌnea
+        while (getline(archivo, linea)) { // Lee el archivo l√≠nea por l√≠nea
             try {
-                pagosCargados.insertar(Pago::fromString(linea)); // Convierte la lÌnea a un objeto Pago y lo inserta
+                pagosCargados.insertar(Pago::fromString(linea)); // Convierte la l√≠nea a un objeto Pago y lo inserta
             }
             catch (const invalid_argument& e) {
-                cerr << "Error al cargar pago de la lÌnea: '" << linea << "' - " << e.what() << endl;
+                cerr << "Error al cargar pago de la l√≠nea: '" << linea << "' - " << e.what() << endl;
             }
         }
         archivo.close();
         cout << "Pagos cargados desde " << nombreArchivo << endl;
     }
     else {
-        cerr << "Advertencia: No se pudo abrir el archivo " << nombreArchivo << ". Se iniciar· sin pagos previos.\n";
+        cerr << "Advertencia: No se pudo abrir el archivo " << nombreArchivo << ". Se iniciar√° sin pagos previos.\n";
     }
     return pagosCargados;
 }
@@ -595,9 +791,9 @@ void menu() {
     cout << "-----------------------------\n";
     cout << " SISTEMA DE GESTION DE GIMNASIO\n";
     cout << "-----------------------------\n";
-    cout << "1. Registrar cliente\n";
-    cout << "2. Mostrar clientes\n";
-    cout << "3. Buscar cliente\n";
+    cout << "1. Registrar cliente (Tabla Hash)\n";
+    cout << "2. Mostrar clientes (Tabla Hash)\n";
+    cout << "3. Buscar cliente (Tabla Hash)\n";
     cout << "4. Registro de pagos\n";
     cout << "5. Reporte de clientes\n";
     cout << "6. Registrar Horario Especifico\n";
@@ -605,62 +801,68 @@ void menu() {
     cout << "8. Registrar Rutina de Ejercicio\n";
     cout << "9. Mostrar Rutinas de Ejercicio\n";
     cout << "10. Actualizar Estado Trainer Cliente\n";
-    cout << "11. Agregar nueva reseÒa\n";
-    cout << "12. Ver reseÒas por entrenador\n";
-    cout << "13. Reportar reseÒa\n";
-    cout << "14. Eliminar reseÒa\n";
+    cout << "11. Agregar nueva rese√±a\n";
+    cout << "12. Ver rese√±as por entrenador\n";
+    cout << "13. Reportar rese√±a\n";
+    cout << "14. Eliminar rese√±a\n";
     cout << "15. Agregar nuevo equipo\n";
     cout << "16. Eliminar equipo\n";
     cout << "17. Poner equipo en mantenimiento\n";
     cout << "18. Todos los equipos\n";
     cout << "19. Equipos en mantenimiento\n";
     cout << "20. Nuevo Objetivo\n";
-    cout << "21. Registrar DÌa Completado\n";
+    cout << "21. Registrar D√≠a Completado\n";
     cout << "22. Archivar Objetivos Completados\n";
     cout << "23. Eliminar Objetivo\n";
     cout << "24. Objetivos Activos\n";
-    cout << "25. Salir\n";
+    cout << "25. Registrar Trainer (Arbol Binario)\n";
+    cout << "26. Buscar Trainer (Arbol Binario)\n";
+    cout << "27. Eliminar Trainer (Arbol Binario)\n";
+    cout << "28. Mostrar Trainers (Arbol Binario - Inorden)\n";
+    cout << "29. Registrar Clase (Arbol Binario)\n";
+    cout << "30. Buscar Clase (Arbol Binario)\n";
+    cout << "31. Eliminar Clase (Arbol Binario)\n";
+    cout << "32. Mostrar Clases (Arbol Binario - Inorden)\n";
+    cout << "33. Salir\n";
     cout << "Seleccione una opcion: ";
 }
 
 int main() {
-    ListaE<cliente> clientes; // Una lista para gestionar clientes
+    // ListaE<cliente> clientes; // Remplazado por TablaHashClientes
     // Cargar pagos al inicio del programa
     pagos = cargarPagos(NOMBRE_ARCHIVO_PAGOS);
-
     int opcion;
 
     do {
         menu();
         cin >> opcion;
         cin.ignore();
-
         if (opcion == 1) {
             cout << endl;
             string id, nombre, correo;
             cout << "Ingrese ID: "; getline(cin, id);
             cout << "Ingrese nombre: "; getline(cin, nombre);
             cout << "Ingrese correo: "; getline(cin, correo);
-            clientes.insertar(cliente(id, nombre, correo));
-            estadoTrainersCliente.insertar(ClienteTieneTrainer(id, false));
-            cout << endl;
-            cout << "Cliente registrado exitosamente.\n";
+            try {
+                tablaClientes.insertar(cliente(id, nombre, correo)); // Insert into hash table
+                estadoTrainersCliente.insertar(ClienteTieneTrainer(id, false));
+                cout << endl;
+                cout << "Cliente registrado exitosamente.\n";
+            } catch (const std::runtime_error& e) {
+                cerr << "Error al registrar cliente: " << e.what() << endl;
+            }
         }
 
         else if (opcion == 2) {
             cout << endl;
-            clientes.mostrar([](cliente c) {
-                cout << "ID: " << c.id << ", Nombre: " << c.name << ", Correo: " << c.correo << endl;
-                });
+            tablaClientes.mostrarTodos(); // mostrar de hash table
         }
 
         else if (opcion == 3) {
             string id;
             cout << "Ingrese ID a buscar: "; getline(cin, id);
             cout << endl;
-            cliente* c = clientes.buscar([&](cliente cli) {
-                return cli.id == id;
-                });
+            cliente* c = tablaClientes.buscar(id); // Buscar en hash table
             if (c) cout << "Cliente encontrado: " << c->name << endl;
             else cout << "Cliente no encontrado.\n";
         }
@@ -669,58 +871,34 @@ int main() {
             string id;
             cout << "Ingrese ID del cliente: "; getline(cin, id);
 
-            cliente* c = clientes.buscar([&](cliente cli) {
-                return cli.id == id;
-                });
-
+            cliente* c = tablaClientes.buscar(id); // Buscar en hash table
             if (c) {
                 string idM, tipo;
                 double precio;
                 cout << "Ingrese ID de membresia: "; getline(cin, idM);
                 cout << "Ingrese tipo de membresia: "; getline(cin, tipo);
                 cout << "Ingrese precio: "; cin >> precio; cin.ignore();
-
                 membresia m(idM, tipo, precio);
                 historialMembresias.push(m); // Se registra en la pila
                 pagos.insertar(Pago(id, m)); // Se registra en la lista de pagos
-                guardarPagos(pagos, NOMBRE_ARCHIVO_PAGOS); // °Guardar pagos en el archivo!
-
+                guardarPagos(pagos, NOMBRE_ARCHIVO_PAGOS); // ¬°Guardar pagos en el archivo!
                 cout << "Pago registrado exitosamente.\n";
-            }
-            else {
+            } else {
                 cout << "Cliente no encontrado.\n";
             }
         }
 
         else if (opcion == 5) {
             cout << endl;
-            clientes.mostrar([&](cliente c) {
-                cout << "ID: " << c.id << ", Nombre: " << c.name << ", Correo: " << c.correo;
-
-                Pago* p = pagos.buscar([&](Pago pago) {
-                    return pago.clienteId == c.id;
-                    });
-
-                if (p)
-                    cout << " -> Membresia pagada: " << p->m.tipo << " (S/ " << p->m.precio << ")\n";
-                else
-                    cout << " -> No ha pagado membresia.\n";
-
-                ClienteTieneTrainer* ctt = estadoTrainersCliente.buscar([&](ClienteTieneTrainer estado) {
-                    return estado.clienteId == c.id;
-                    });
-
-                if (ctt) {
-                    if (ctt->tieneTrainer) cout << "    Tiene entrenador asignado.\n";
-                    else cout << "    No tiene entrenador asignado.\n";
-                }
-                else {
-                    cout << "    Estado de entrenador desconocido.\n";
-                }
-
-                });
+            tablaClientes.mostrarTodos(); 
+            cout << "\n--- Reporte detallado de Clientes (adaptado para Tabla Hash) ---\n";
+            for (int i = 0; i < tablaClientes.capacidad; ++i) { 
+                //-----------------------------------------------------------------------------------------------------------------------------------------------------
+                // Faltaria esta opcion, pero primero hay que ver si al final se va a hacer los cambios en la estructura de datos de los clientes a un vector normal .
+                //-----------------------------------------------------------------------------------------------------------------------------------------------------
+            }
+            
         }
-
         else if (opcion == 6) {
             cout << "\n--- Registrar Horario Especifico ---\n";
             string id, descripcion;
@@ -728,9 +906,7 @@ int main() {
             cout << "Ingrese descripcion (ej: 06:00-12:00): "; getline(cin, descripcion);
             horarios.insertar(HorariosEspecificos(id, descripcion));
             cout << "Horario registrado.\n";
-
         }
-
         else if (opcion == 7) {
             cout << "\n--- Mostrar Horarios Especificos ---\n";
             if (horarios.buscar([](HorariosEspecificos h) { return true; }) == nullptr) {
@@ -742,7 +918,6 @@ int main() {
                     });
             }
         }
-
         else if (opcion == 8) {
             cout << "\n--- Registrar Rutina de Ejercicio ---\n";
             string id, nombre, descripcion;
@@ -752,7 +927,6 @@ int main() {
             rutinas.insertar(RutinaEjercicio(id, nombre, descripcion));
             cout << "Rutina registrada.\n";
         }
-
         else if (opcion == 9) {
             cout << "\n--- Mostrar Rutinas de Ejercicio ---\n";
             if (rutinas.buscar([](RutinaEjercicio r) { return true; }) == nullptr) {
@@ -764,285 +938,196 @@ int main() {
                     });
             }
         }
-
         else if (opcion == 10) {
             cout << "\n--- Actualizar Estado Trainer Cliente ---\n";
             string clienteId;
             cout << "Ingrese ID del cliente: "; getline(cin, clienteId);
-
-            ClienteTieneTrainer* ctt = estadoTrainersCliente.buscar([&](ClienteTieneTrainer estado) {
-                return estado.clienteId == clienteId;
-                });
-
+            ClienteTieneTrainer* ctt = estadoTrainersCliente.buscar([&](ClienteTieneTrainer estado) { return estado.clienteId == clienteId; });
             if (ctt) {
                 char respuesta;
                 cout << "El cliente actualmente " << (ctt->tieneTrainer ? "tiene" : "no tiene") << " entrenador.\n";
-                cout << "øAsignar entrenador? (s/n): "; cin >> respuesta; cin.ignore();
-
+                cout << "¬øAsignar entrenador? (s/n): "; cin >> respuesta; cin.ignore();
                 if (respuesta == 's' || respuesta == 'S') {
                     ctt->tieneTrainer = true;
                     cout << "Estado actualizado: Cliente ahora tiene entrenador.\n";
-                }
-                else if (respuesta == 'n' || respuesta == 'N') {
+                } else if (respuesta == 'n' || respuesta == 'N') {
                     ctt->tieneTrainer = false;
                     cout << "Estado actualizado: Cliente ahora no tiene entrenador.\n";
-                }
-                else {
+                } else {
                     cout << "Opcion invalida.\n";
                 }
-
-            }
-            else {
+            } else {
                 cout << "Cliente no encontrado en el registro de estado de trainers.\n";
             }
         }
-
-
         else if (opcion == 11) {
-            cout << "\n--- Agregar nueva reseÒa ---\n";
+            cout << "\n--- Agregar nueva rese√±a ---\n";
             string clienteId;
             string instructorId;
             string comentario;
             string puntuacion;
-            string reseÒaId;
-
-            cout << "Ingrese ID de la reseÒa "; getline(cin, reseÒaId);
+            string rese√±aId;
+            cout << "Ingrese ID de la rese√±a "; getline(cin, rese√±aId);
             cout << "Ingrese ID del cliente: "; getline(cin, clienteId);
             cout << "Ingrese ID del instructor: "; getline(cin, instructorId);
-            cout << "Ingrese reseÒa: "; getline(cin, comentario);
-            cout << "Ingrese puntuaciÛn: "; getline(cin, puntuacion);
-
+            cout << "Ingrese rese√±a: "; getline(cin, comentario);
+            cout << "Ingrese puntuaci√≥n: "; getline(cin, puntuacion);
             int puntuacionNum = stoi(puntuacion);
             if (puntuacionNum < 1 || puntuacionNum > 5) {
                 throw out_of_range("Invalid rating");
             }
-
-            reseÒasTotales.insertar(ReseÒaDeEntrenador(reseÒaId, clienteId, instructorId, static_cast<ReseÒaDeEntrenador::Calificacion>(puntuacionNum), comentario));
-            cout << "ReseÒa agregada con ID: " << reseÒaId << endl;
+            rese√±asTotales.insertar(Rese√±aDeEntrenador(rese√±aId, clienteId, instructorId, static_cast<Rese√±aDeEntrenador::Calificacion>(puntuacionNum), comentario));
+            cout << "Rese√±a agregada con ID: " << rese√±aId << endl;
         }
-        else if (opcion == 12) {
-            // mirar reviews de trainer
-            cout << "\n--- Ver reseÒas por entrenador ---\n";
+        else if (opcion == 12) { // mirar reviews de trainer
+            cout << "\n--- Ver rese√±as por entrenador ---\n";
             string trainerId;
-            cout << "Ingrese ID del entrenador: ";
-            getline(cin, trainerId);
-
-            cout << "\nReseÒas para el entrenador " << trainerId << ":\n";
-            reseÒasTotales.mostrar([&](ReseÒaDeEntrenador r) {
+            cout << "Ingrese ID del entrenador: "; getline(cin, trainerId);
+            cout << "\nRese√±as para el entrenador " << trainerId << ":\n";
+            rese√±asTotales.mostrar([&](Rese√±aDeEntrenador r) {
                 if (r.trainerId == trainerId) {
-                    cout << "ID ReseÒa: " << r.reseÒaId << "\n"
+                    cout << "ID Rese√±a: " << r.rese√±aId << "\n"
                         << "Cliente: " << r.clienteId << "\n"
-                        << "PuntuaciÛn: " << static_cast<int>(r.calificacion) << "\n"
+                        << "Puntuaci√≥n: " << static_cast<int>(r.calificacion) << "\n"
                         << "Comentario: " << r.comentario << "\n"
-                        << "Fecha: " << r.obtenerFechaFormateada()
-                        << "Estado: " << (r.estado == ReseÒaDeEntrenador::EstadoReseÒa::ACTIVA ? "Activa" : "Reportada")
-                        << "\n-----------------------------\n";
+                        << "Fecha: " << r.obtenerFechaFormateada() << "Estado: " << (r.estado == Rese√±aDeEntrenador::EstadoRese√±a::ACTIVA ? "Activa" : "Reportada") << "\n-----------------------------\n";
                 }
                 });
         }
-        else if (opcion == 13) {
-            // Report review
-            cout << "\n--- Reportar reseÒa ---\n";
-            string reseÒaId;
-            cout << "Ingrese ID de la reseÒa a reportar: ";
-            getline(cin, reseÒaId);
-
-            ReseÒaDeEntrenador* reseÒa = reseÒasTotales.buscar([&](ReseÒaDeEntrenador r) {
-                return r.reseÒaId == reseÒaId;
-                });
-
-            if (reseÒa) {
-                reseÒa->reportarReseÒa();
-                reseÒasReportadas.push(reseÒa);
-                cout << "ReseÒa reportada exitosamente!\n";
+        else if (opcion == 13) { // Report review
+            cout << "\n--- Reportar rese√±a ---\n";
+            string rese√±aId;
+            cout << "Ingrese ID de la rese√±a a reportar: "; getline(cin, rese√±aId);
+            Rese√±aDeEntrenador* rese√±a = rese√±asTotales.buscar([&](Rese√±aDeEntrenador r) { return r.rese√±aId == rese√±aId; });
+            if (rese√±a) {
+                rese√±a->reportarRese√±a();
+                rese√±asReportadas.push(rese√±a);
+                cout << "Rese√±a " << rese√±aId << " reportada.\n";
             }
             else {
-                cout << "ReseÒa no encontrada.\n";
+                cout << "Rese√±a no encontrada.\n";
             }
         }
-
         else if (opcion == 14) {
-            // Delete review
-            cout << "\n--- Eliminar reseÒa ---\n";
-            string reseÒaId;
-            cout << "Ingrese ID de la reseÒa a eliminar: ";
-            getline(cin, reseÒaId);
+            cout << "\n--- Eliminar rese√±a ---\n";
+            string rese√±aId;
+            cout << "Ingrese ID de la rese√±a a eliminar: "; getline(cin, rese√±aId);
 
-            bool eliminado = reseÒasTotales.eliminar([&](ReseÒaDeEntrenador r) {
-                return r.reseÒaId == reseÒaId;
-                });
-
-            if (eliminado) {
-                // Remove from reported queue if present
-                queue<ReseÒaDeEntrenador*> temp;
-                while (!reseÒasReportadas.empty()) {
-                    if (reseÒasReportadas.front()->reseÒaId != reseÒaId) {
-                        temp.push(reseÒasReportadas.front());
-                    }
-                    reseÒasReportadas.pop();
-                }
-                reseÒasReportadas = temp;
-
-                cout << "ReseÒa eliminada exitosamente!\n";
+            if (rese√±asTotales.eliminar([&](Rese√±aDeEntrenador r) { return r.rese√±aId == rese√±aId; })) {
+                cout << "Rese√±a " << rese√±aId << " eliminada exitosamente.\n";
             }
             else {
-                cout << "ReseÒa no encontrada.\n";
+                cout << "Rese√±a no encontrada.\n";
             }
         }
-
-
         else if (opcion == 15) {
             cout << "\n--- Agregar nuevo equipo ---\n";
-            string id, nombre, zona;
-            int tipo;
-
-            cout << "Ingrese ID del equipo: "; getline(cin, id);
-            cout << "Ingrese nombre del equipo: "; getline(cin, nombre);
-            cout << "Seleccione tipo (1-CARDIO, 2-FUERZA, 3-PESAS_LIBRES, 4-MAQUINARIA, 5-OTROS): ";
-            cin >> tipo; cin.ignore();
-            cout << "Ingrese zona del gimnasio: "; getline(cin, zona);
-
-            Equipo::TipoEquipo tipoEnum = static_cast<Equipo::TipoEquipo>(tipo - 1);
-            Equipo nuevoEquipo(id, nombre, tipoEnum);
-            nuevoEquipo.zonaGimnasio = zona;
-
-            equiposTotales.insertar(nuevoEquipo);
-            cout << "Equipo agregado exitosamente!\n";
+            string equipoId, nombreEquipo, tipoStr;
+            int tipoNum;
+            cout << "Ingrese ID del equipo: "; getline(cin, equipoId);
+            cout << "Ingrese nombre del equipo: "; getline(cin, nombreEquipo);
+            cout << "Ingrese tipo de equipo (0: CARDIO, 1: FUERZA, 2: PESAS_LIBRES, 3: MAQUINARIA, 4: OTROS): ";
+            cin >> tipoNum; cin.ignore();
+            Equipo::TipoEquipo tipoEquipo = static_cast<Equipo::TipoEquipo>(tipoNum);
+            equiposTotales.insertar(Equipo(equipoId, nombreEquipo, tipoEquipo));
+            cout << "Equipo agregado exitosamente.\n";
         }
-
         else if (opcion == 16) {
             cout << "\n--- Eliminar equipo ---\n";
-            string id;
-            cout << "Ingrese ID del equipo a eliminar: "; getline(cin, id);
-
-            bool eliminado = equiposTotales.eliminar([&](Equipo e) {
-                return e.equipoId == id;
-                });
-
-            if (eliminado) {
-                equiposEnMantenimiento.eliminar([&](Equipo e) {
-                    return e.equipoId == id;
-                    });
-                cout << "Equipo eliminado exitosamente!\n";
+            string equipoId;
+            cout << "Ingrese ID del equipo a eliminar: "; getline(cin, equipoId);
+            if (equiposTotales.eliminar([&](Equipo e) { return e.equipoId == equipoId; })) {
+                cout << "Equipo " << equipoId << " eliminado exitosamente.\n";
             }
             else {
                 cout << "Equipo no encontrado.\n";
             }
         }
-
         else if (opcion == 17) {
             cout << "\n--- Poner equipo en mantenimiento ---\n";
-            string id;
-            int horas;
-
-            cout << "Ingrese ID del equipo: "; getline(cin, id);
-            Equipo* equipo = equiposTotales.buscar([&](Equipo e) {
-                return e.equipoId == id;
-                });
-
+            string equipoId;
+            cout << "Ingrese ID del equipo a poner en mantenimiento: "; getline(cin, equipoId);
+            Equipo* equipo = equiposTotales.buscar([&](Equipo e) { return e.equipoId == equipoId; });
             if (equipo) {
-                cout << "Ingrese horas hasta proximo mantenimiento: ";
-                cin >> horas; cin.ignore();
-
-                equipo->programarMantenimiento(horas);
-                equiposEnMantenimiento.eliminar([&](Equipo e) {
-                    return e.equipoId == id;
-                    });
-                equiposEnMantenimiento.insertar(*equipo);
-                cout << "Equipo programado para mantenimiento!\n";
+                equipo->actualizarEstado(Equipo::EstadoMantenimiento::EN_MANTENIMIENTO);
+                equiposEnMantenimiento.insertar(*equipo); // Add to circular list
+                cout << "Equipo " << equipoId << " puesto en mantenimiento.\n";
             }
             else {
                 cout << "Equipo no encontrado.\n";
             }
         }
-
         else if (opcion == 18) {
             cout << "\n--- Todos los equipos ---\n";
             equiposTotales.mostrar([](Equipo e) {
-                cout << "ID: " << e.equipoId
-                    << " | Nombre: " << e.nombre
-                    << " | Zona: " << e.zonaGimnasio
-                    << " | Estado: " << static_cast<int>(e.estado) << "\n";
+                cout << "ID: " << e.equipoId << ", Nombre: " << e.nombre;
+                cout << ", Estado: " << (e.estado == Equipo::EstadoMantenimiento::OPERATIVO ? "Operativo" : (e.estado == Equipo::EstadoMantenimiento::EN_MANTENIMIENTO ? "En Mantenimiento" : "Deshabilitado")) << "\n";
                 });
         }
-
         else if (opcion == 19) {
             cout << "\n--- Equipos en mantenimiento ---\n";
-            equiposEnMantenimiento.mostrar([](const Equipo& e) {
-                cout << "ID: " << e.equipoId
-                    << " | Nombre: " << e.nombre
-                    << " | Proximo mantenimiento en: "
-                    << chrono::duration_cast<chrono::hours>(
-                        e.proximoMantenimiento - chrono::system_clock::now()).count()
-                    << " horas\n";
+            equiposEnMantenimiento.mostrar([](Equipo e) {
+                cout << "ID: " << e.equipoId << ", Nombre: " << e.nombre << "\n";
                 });
         }
-
         else if (opcion == 20) {
             cout << "\n--- Nuevo Objetivo ---\n";
-            string clienteId, startDate, endDate;
+            string objetivoId, clienteId, startDateStr, endDateStr;
             int targetDays;
 
-            cout << "ID del cliente: "; getline(cin, clienteId);
-            cout << "DÌas objetivo: "; cin >> targetDays; cin.ignore();
-            cout << "Fecha inicio (YYYY-MM-DD): "; getline(cin, startDate);
-            cout << "Fecha fin (YYYY-MM-DD): "; getline(cin, endDate);
+            cout << "Ingrese ID del objetivo: "; getline(cin, objetivoId);
+            cout << "Ingrese ID del cliente: "; getline(cin, clienteId);
+            cout << "Ingrese d√≠as objetivo: "; cin >> targetDays; cin.ignore();
+            cout << "Ingrese fecha de inicio (YYYY-MM-DD): "; getline(cin, startDateStr);
+            cout << "Ingrese fecha de fin (YYYY-MM-DD): "; getline(cin, endDateStr);
 
             try {
-                string objetivoId = "OBJ-" + to_string(time(nullptr));
-                Objetivo nuevo(objetivoId, clienteId, targetDays, startDate, endDate);
-                objetivosActivos.push(nuevo);
-                cout << "Objetivo creado con ID: " << objetivoId << endl;
+                Objetivo nuevoObjetivo(objetivoId, clienteId, targetDays, startDateStr, endDateStr);
+                objetivosActivos.push(nuevoObjetivo);
+                cout << "Objetivo creado y activo.\n";
             }
-            catch (const exception& e) {
-                cout << "Error: " << e.what() << endl;
+            catch (const invalid_argument& e) {
+                cerr << "Error al crear objetivo: " << e.what() << endl;
             }
         }
-
         else if (opcion == 21) {
-            cout << "\n--- Registrar DÌa Completado ---\n";
+            cout << "\n--- Registrar D√≠a Completado ---\n";
+            if (objetivosActivos.empty()) {
+                cout << "No hay objetivos activos para actualizar.\n";
+                continue;
+            }
             string objetivoId;
-            cout << "ID del objetivo: "; getline(cin, objetivoId);
+            cout << "Ingrese ID del objetivo a actualizar: "; getline(cin, objetivoId);
 
-            // Buscar en objetivos activos
-            stack<Objetivo> temp;
-            bool encontrado = false;
-
+            stack<Objetivo> tempStack;
+            bool found = false;
             while (!objetivosActivos.empty()) {
                 Objetivo obj = objetivosActivos.top();
                 objetivosActivos.pop();
-
                 if (obj.objetivoId == objetivoId) {
                     obj.incrementDays();
-                    cout << "DÌa registrado. Progreso actual: "
-                        << obj.currentDays << "/" << obj.targetDays << endl;
-                    encontrado = true;
+                    cout << "D√≠a registrado para objetivo " << objetivoId << ". Progreso: " << obj.currentDays << "/" << obj.targetDays << endl;
+                    found = true;
                 }
-                temp.push(obj);
+                tempStack.push(obj);
             }
-
-            // Restaurar la pila
-            while (!temp.empty()) {
-                objetivosActivos.push(temp.top());
-                temp.pop();
+            while (!tempStack.empty()) {
+                objetivosActivos.push(tempStack.top());
+                tempStack.pop();
             }
-
-            if (!encontrado) {
-                cout << "Objetivo no encontrado o ya completado\n";
+            if (!found) {
+                cout << "Objetivo con ID " << objetivoId << " no encontrado entre los objetivos activos.\n";
             }
         }
-
         else if (opcion == 22) {
-            cout << "\n--- Archivar Objetivos Completados ---\n";
+            cout << "\n--- Archivar Objetivos Completados/Expirados ---\n";
             stack<Objetivo> nuevosActivos;
             int archivados = 0;
-
             while (!objetivosActivos.empty()) {
                 Objetivo obj = objetivosActivos.top();
                 objetivosActivos.pop();
-
-                if (obj.estado == Objetivo::Estado::Achieved ||
-                    obj.estado == Objetivo::Estado::Expired) {
+                obj.updateStatus(); // Ensure status is up-to-date
+                if (obj.estado == Objetivo::Estado::Achieved || obj.estado == Objetivo::Estado::Expired) {
                     objetivosHistoricos.insertar(obj);
                     archivados++;
                 }
@@ -1050,35 +1135,28 @@ int main() {
                     nuevosActivos.push(obj);
                 }
             }
-
             objetivosActivos = nuevosActivos;
             cout << "Objetivos archivados: " << archivados << endl;
         }
-
         else if (opcion == 23) {
             cout << "\n--- Eliminar Objetivo ---\n";
             string objetivoId;
-            cout << "ID del objetivo a eliminar: "; getline(cin, objetivoId);
-
-            // Eliminar de objetivos activos
+            cout << "Ingrese ID del objetivo a eliminar: "; getline(cin, objetivoId);
             stack<Objetivo> nuevosActivos;
             int eliminados = 0;
-
             while (!objetivosActivos.empty()) {
                 Objetivo obj = objetivosActivos.top();
                 objetivosActivos.pop();
-
-                if (obj.objetivoId != objetivoId) {
-                    nuevosActivos.push(obj);
-                }
-                else {
+                if (obj.objetivoId == objetivoId) {
                     eliminados++;
                 }
+                else {
+                    nuevosActivos.push(obj);
+                }
             }
-
             objetivosActivos = nuevosActivos;
 
-            // Eliminar de objetivos histÛricos
+            // Eliminar de objetivos hist√≥ricos
             objetivosHistoricos.eliminar([&](Objetivo obj) {
                 return obj.objetivoId == objetivoId;
                 });
@@ -1116,8 +1194,78 @@ int main() {
             cout << "Saliendo del programa..." << endl;
             return 0;
         }
-    } while (opcion != 999);
-
+        else if (opcion == 26) { // registrar Trainer (Arbol Binario)
+            cout << "\n--- Registrar Trainer ---\n";
+            string id, name, especialidad;
+            cout << "Ingrese ID del trainer: "; getline(cin, id);
+            cout << "Ingrese nombre del trainer: "; getline(cin, name);
+            cout << "Ingrese especialidad del trainer: "; getline(cin, especialidad);
+            arbolTrainers.insertar(trainer(id, name, especialidad));
+            cout << "Trainer registrado exitosamente en el √°rbol binario.\n";
+        }
+        else if (opcion == 27) { // Buscar Trainer (Arbol Binario)
+            cout << "\n--- Buscar Trainer ---\n";
+            string id;
+            cout << "Ingrese ID del trainer a buscar: "; getline(cin, id);
+            trainer searchTrainer(id, "", ""); 
+            if (arbolTrainers.buscar(searchTrainer)) {
+                cout << "Trainer encontrado.\n";
+            } else {
+                cout << "Trainer no encontrado.\n";
+            }
+        }
+        else if (opcion == 28) { // Eliminar Trainer (Arbol Binario)
+            cout << "\n--- Eliminar Trainer ---\n";
+            string id;
+            cout << "Ingrese ID del trainer a eliminar: "; getline(cin, id);
+            trainer deleteTrainer(id, "", ""); 
+            arbolTrainers.eliminar(deleteTrainer);
+            cout << "Trainer eliminado (si exist√≠a).\n";
+        }
+        else if (opcion == 29) { // Mostrar Trainers (Arbol Binario)
+            cout << "\n--- Trainers Registrados (Inorden) ---\n";
+            arbolTrainers.inorden([](trainer t) {
+                cout << "ID: " << t.id << ", Nombre: " << t.nme << ", Especialidad: " << t.especialidad << endl;
+            });
+        }
+        else if (opcion == 30) { // Registrar Clase (Arbol Binario)
+            cout << "\n--- Registrar Clase ---\n";
+            string id, nombre, horario;
+            cout << "Ingrese ID de la clase: "; getline(cin, id);
+            cout << "Ingrese nombre de la clase: "; getline(cin, nombre);
+            cout << "Ingrese horario de la clase: "; getline(cin, horario);
+            arbolClases.insertar(clase(id, nombre, horario));
+            cout << "Clase registrada exitosamente en el √°rbol binario.\n";
+        }
+        else if (opcion == 31) { // Buscar Clase (Arbol Binario)
+            cout << "\n--- Buscar Clase ---\n";
+            string id;
+            cout << "Ingrese ID de la clase a buscar: "; getline(cin, id);
+            clase searchClase(id, "", ""); // 
+            if (arbolClases.buscar(searchClase)) {
+                cout << "Clase encontrada.\n";
+            } else {
+                cout << "Clase no encontrada.\n";
+            }
+        }
+        else if (opcion == 32) { // Eliminar Clase (Arbol Binario)
+            cout << "\n--- Eliminar Clase ---\n";
+            string id;
+            cout << "Ingrese ID de la clase a eliminar: "; getline(cin, id);
+            clase deleteClase(id, "", ""); 
+            arbolClases.eliminar(deleteClase);
+            cout << "Clase eliminada (si exist√≠a).\n";
+        }
+        else if (opcion == 33) { // Mostrar Clases (Arbol Binario - Inorden)
+            cout << "\n--- Clases Registradas (Inorden) ---\n";
+            arbolClases.inorden([](clase c) {
+                cout << "ID: " << c.id << ", Nombre: " << c.nombre << ", Horario: " << c.horario << endl;
+            });
+        }
+        else {
+            cout << "Opcion invalida. Intente de nuevo.\n";
+        }
+    } while (true);
 
     return 0;
 }
